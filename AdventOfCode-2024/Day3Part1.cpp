@@ -19,6 +19,15 @@ const ll INF=1e18+9;
 
 
 
+int getNumber(int &i, string &s) {
+    int res=0;
+    while(res <1000 && isdigit(s[i])) {
+        res = res*10 + (s[i]-'0');
+        i++;
+    }
+    return res<1000 ? res : -1;
+}
+
 
 void test_case(){
 
@@ -30,52 +39,23 @@ void test_case(){
     int n=(int)s.size();
     for(int i=0;i<n;i++) {
         string cur=s.substr(i,3);
-        if(cur!="mul") continue;
-        else {
+        if(cur=="mul") {
             i+=3;
             if(s[i]!='(') {
                 i--;
                 continue;
             }
             i++;
-            bool test=true;
-            int len=0;
-            string x;
-            while(len <4 && test && i<n) {
-                if(s[i]>='0' && s[i]<='9') {
-                    x+=s[i];
-                    i++;
-                    len++;
-                }
-                else test=0;
-            }
-            if(s[i]!=',' || !len) {
+            int val1=getNumber(i,s);
+            if(s[i]!=',' || val1==-1) {
                 i--;
                 continue;
-            }
-            int val1=0;
-            for(int j=0;j<(int)x.size();j++) {
-                val1+=(int)(x[j]-'0') * (int)(pow(10,len-j-1));
             }
             i++;
-            len=0;
-            test=true;
-            string y;
-            while(len <3 && test && i<n) {
-                if(s[i]>='0' && s[i]<='9') {
-                    y+=s[i];
-                    i++;
-                    len++;
-                }
-                else test=0;
-            }
-            if(s[i]!=')' || !len) {
+            int val2=getNumber(i,s);
+            if(s[i]!=')' || val2==-1) {
                 i--;
                 continue;
-            }
-            int val2=0;
-            for(int j=0;j<(int)y.size();j++) {
-                val2+=((int)(y[j]-'0') * (int)pow(10, len-j-1));
             }
             ans+=(val1*val2);
         }
