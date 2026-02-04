@@ -19,19 +19,24 @@ const int MOD = 1e9 + 7;
 const ll INF = 1e18 + 9;
 
 void test_case() {
-    int n, s, x, sum = 0;
-    cin >> n >> s >> x;
+    int n;
+    cin >> n;
+    vi v(n);
+    map<int, int> mp;
     for (int i = 0; i < n; i++) {
-        int val;
-        cin >> val;
-        sum += val;
+        cin >> v[i];
+        mp[v[i]] = i;
     }
-    if (sum <= s) {
-        string ans = (s - sum) % x ? "NO" : "YES";
-        cout << ans << endl;
-    } else {
-        cout << "NO" << endl;
+    for (int i = 0; i < n; i++) {
+        if (v[i] != (n - i)) {
+            reverse(v.begin() + i, v.begin() + mp[n - i] + 1);
+            break;
+        }
     }
+    for (auto &x : v) {
+        cout << x << ' ';
+    }
+    cout << endl;
 }
 
 int main() {
